@@ -124,14 +124,18 @@ classDiagram
     User <|-- Member
     Searchable <|.. BookService
     Searchable <|.. MemberService
-    BookService *-- Book : mengelola
-    MemberService *-- IssueRecord : mengelola
-    MemberService o-- Member : mengelola
-    MemberService --> BookService : memakai
-    AuthenticationManager o-- Member
-    AuthenticationManager --> Admin : membuat
-    IssueRecord --> Book
-    IssueRecord --> Member
+
+    BookService "1" *-- "0..*" Book : mengelola
+    MemberService "1" *-- "0..*" IssueRecord : mengelola
+    MemberService "1" o-- "0..*" Member : mengelola
+    MemberService "1" --> "1" BookService : memakai
+
+    AuthenticationManager "1" o-- "0..*" Member
+    AuthenticationManager "1" --> "1" Admin : membuat
+
+    IssueRecord "0..*" --> "1" Member
+    IssueRecord "0..*" --> "1" Book
+
     LibraryFrame ..> BookService
     LibraryFrame ..> MemberService
     LibraryFrame ..> AuthenticationManager
@@ -149,6 +153,7 @@ classDiagram
 | `──◇` belah ketupat kosong | aggregation | `MemberService` ◇ `Member` |
 | `──▶` panah penuh | association | `IssueRecord` → `Book`, `IssueRecord` → `Member` |
 | `┄┄▶` panah putus | dependency | service → `FileManager`, `LibraryFrame` → service |
+| `1` / `0..*` | multiplicity | `MemberService` 1 — `0..*` `Member` |
 
 ## Penerapan PBO
 

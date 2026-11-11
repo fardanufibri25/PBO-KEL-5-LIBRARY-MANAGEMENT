@@ -38,6 +38,11 @@ lengkap JDK, misalnya:
 & "C:\Program Files\Android\Android Studio\jbr\bin\java.exe" -cp out perpus.LibraryFrame
 ```
 
+## Panduan Pemakaian
+
+Langkah lengkap memakai aplikasi (login, CRUD, pinjam, overdue, demo):
+[`docs/panduan.md`](docs/panduan.md).
+
 ## Struktur Folder
 
 ```

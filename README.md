@@ -46,10 +46,28 @@ Langkah lengkap memakai aplikasi (login, CRUD, pinjam, overdue, demo):
 ## Struktur Folder
 
 ```
-src/perpus/     kode program (11 file: 10 class + 1 interface)
-data/           penyimpanan data (dibuat otomatis)
-test/           SmokeTest.java, pengecekan logika tanpa GUI
-out/            hasil compile (boleh dihapus)
+PBO LIB MANAGEMENT/
+├── src/perpus/          kode program Java (10 class + 1 interface)
+│   ├── User.java
+│   ├── Admin.java
+│   ├── Member.java
+│   ├── Book.java
+│   ├── IssueRecord.java
+│   ├── Searchable.java
+│   ├── BookService.java
+│   ├── MemberService.java
+│   ├── AuthenticationManager.java
+│   ├── FileManager.java
+│   └── LibraryFrame.java
+├── test/SmokeTest.java   pengecekan logika tanpa GUI
+├── docs/
+│   ├── diagram-class.md  diagram class
+│   ├── panduan.md        panduan pemakaian
+│   └── img/              screenshot GUI
+├── data/                 file data, dibuat otomatis
+├── out/                  hasil compile, boleh dihapus
+├── .gitignore
+└── README.md
 ```
 
 ## Diagram Class

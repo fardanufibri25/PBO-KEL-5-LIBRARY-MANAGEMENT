@@ -125,5 +125,5 @@ java -cp out SmokeTest
 ```
 
 Jalankan dari folder kosong agar file data asli tidak tertimpa.
-SmokeTest memeriksa 20 hal: login, hak akses, pinjam, stok, pinjam ganda,
+SmokeTest memeriksa 23 hal: login, hak akses, pinjam, stok, pinjam ganda,
 pengembalian, stok habis, update anggota, dan aturan hapus data.

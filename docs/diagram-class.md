@@ -87,6 +87,7 @@ classDiagram
         +addMember(member) boolean
         +updateMember(member) boolean
         +deleteMember(id) String
+        +deleteBook(id) boolean
         +issue(memberId, bookId) String
         +returnBook(memberId, bookId) String
     }

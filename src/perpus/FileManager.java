@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -123,10 +124,16 @@ public class FileManager {
         }
     }
 
+    // shortcut: satu jendela saja; dua instance saling menimpa. Kunci file kalau perlu multi-user.
     private static void write(Path path, List<String> lines) {
         try {
             Files.createDirectories(DATA_DIR);
-            Files.write(path, lines, StandardCharsets.UTF_8);
+            // Tulis ke file sementara lalu pindahkan, supaya crash tidak
+            // meninggalkan file data yang terpotong.
+            Path tmp = path.resolveSibling(path.getFileName() + ".tmp");
+            Files.write(tmp, lines, StandardCharsets.UTF_8);
+            Files.move(tmp, path, StandardCopyOption.REPLACE_EXISTING,
+                    StandardCopyOption.ATOMIC_MOVE);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

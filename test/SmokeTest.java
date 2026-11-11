@@ -52,7 +52,9 @@ public class SmokeTest {
         check("anggota lain tetap bisa pinjam B001", members.issue("M002", "B001") == null);
 
         check("hapus anggota berpinjaman ditolak", members.deleteMember("M002") != null);
-        check("hapus buku berpinjaman", books.deleteBook("B001"));
+        check("hapus buku berpinjaman ditolak", !members.deleteBook("B001"));
+        check("kembalikan buku anggota", members.returnBook("M002", "B001") == null);
+        check("hapus buku setelah dikembalikan", members.deleteBook("B001"));
 
         System.out.println(failed == 0 ? "SEMUA CEK LULUS" : failed + " CEK GAGAL");
         if (failed > 0) {

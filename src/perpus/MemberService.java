@@ -81,6 +81,15 @@ public class MemberService implements Searchable<Member> {
         return null;
     }
 
+    public boolean deleteBook(String bookId) {
+        for (IssueRecord record : records) {
+            if (record.getBook().getBookId().equalsIgnoreCase(bookId)) {
+                return false;
+            }
+        }
+        return bookService.deleteBook(bookId);
+    }
+
     public String issue(String memberId, String bookId) {
         Member member = searchById(memberId);
         if (member == null) {

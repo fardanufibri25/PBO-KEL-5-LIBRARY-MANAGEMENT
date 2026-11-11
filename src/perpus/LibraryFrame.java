@@ -45,6 +45,10 @@ public class LibraryFrame extends JFrame {
     }
 
     public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler((thread, error) ->
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,
+                        "Terjadi kesalahan:\n" + error.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE)));
         SwingUtilities.invokeLater(() -> new LibraryFrame().setVisible(true));
     }
 
@@ -243,14 +247,8 @@ public class LibraryFrame extends JFrame {
                 return;
             }
             String bookId = String.valueOf(bookModel.getValueAt(row, 0));
-            for (IssueRecord record : memberService.getActiveRecords()) {
-                if (record.getBook().getBookId().equalsIgnoreCase(bookId)) {
-                    warn("Buku sedang dipinjam, tidak bisa dihapus.");
-                    return;
-                }
-            }
-            if (!bookService.deleteBook(bookId)) {
-                warn("Buku tidak ditemukan.");
+            if (!memberService.deleteBook(bookId)) {
+                warn("Buku sedang dipinjam atau tidak ditemukan.");
                 return;
             }
             refreshAll();
@@ -421,6 +419,10 @@ public class LibraryFrame extends JFrame {
             }
             String memberId = String.valueOf(loanModel.getValueAt(row, 0));
             String bookId = String.valueOf(loanModel.getValueAt(row, 2));
+            if (!isAdmin() && !memberId.equalsIgnoreCase(currentUser.getId())) {
+                warn("Anda hanya bisa mengembalikan buku milik sendiri.");
+                return;
+            }
             String error = memberService.returnBook(memberId, bookId);
             if (error != null) {
                 warn(error);

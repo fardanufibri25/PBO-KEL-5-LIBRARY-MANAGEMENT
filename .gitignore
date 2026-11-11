@@ -1,0 +1,5 @@
+out/
+data/
+*.class
+gui-err.txt
+gui-out.txt

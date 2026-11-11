@@ -10,7 +10,7 @@ public class BookService implements Searchable<Book> {
     }
 
     public List<Book> getAllBooks() {
-        return books;
+        return List.copyOf(books);
     }
 
     @Override

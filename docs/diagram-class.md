@@ -104,6 +104,7 @@ classDiagram
         -Path BOOK_FILE
         -Path MEMBER_FILE
         -Path DUE_FILE
+        +isValidField(value) boolean$
         +loadBooks() List~Book~
         +saveBooks(books) void
         +loadMembers() List~Member~
@@ -161,7 +162,8 @@ classDiagram
 - **Abstraction** — `User` abstract, `getRole()` wajib diisi turunan.
 - **Inheritance** — `Admin` dan `Member` mewarisi `User`.
 - **Polymorphism** — `getRole()` dioverride; `LibraryFrame.currentUser` bertipe
-  `User` tapi perilakunya beda. `Searchable<T>` dipakai lewat tipe interface.
+  `User` tapi perilakunya beda. Kedua service mengimplementasikan
+  `Searchable<T>`; pemanggilan lewat tipe interface dicontohkan di `SmokeTest`.
 - **Encapsulation** — semua field `private`, akses lewat getter/setter.
 - **Composition / Aggregation / Dependency** — lihat tabel panah di atas.
 

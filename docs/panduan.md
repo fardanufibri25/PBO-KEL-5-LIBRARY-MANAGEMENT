@@ -195,6 +195,7 @@ data/dueDates.txt       M001;B001;2026-11-18
 | Overdue kosong | Belum lewat jatuh tempo | Ikuti bagian 9 |
 | Muncul dialog "Terjadi kesalahan" | File data terkunci / tidak bisa ditulis | Tutup aplikasi lain yang membuka file itu, cek izin folder |
 | Data kembali ke awal | Folder `data/` terhapus atau dijalankan dari folder lain | Jalankan dari folder proyek yang sama |
+| Dialog data tidak valid | Baris file rusak atau input berisi `;` | Perbaiki baris sesuai format atau hapus `;` dari input |
 
 ## 13. Urutan demo 5 menit
 

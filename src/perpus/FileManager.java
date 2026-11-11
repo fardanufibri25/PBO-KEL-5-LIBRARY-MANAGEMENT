@@ -21,17 +21,23 @@ public class FileManager {
     private FileManager() {
     }
 
+    public static boolean isValidField(String value) {
+        return value != null && !value.contains(";")
+                && !value.contains("\n") && !value.contains("\r");
+    }
+
     public static List<Book> loadBooks() {
         List<Book> books = new ArrayList<>();
         for (String line : read(BOOK_FILE)) {
             String[] parts = line.split(";", -1);
-            if (parts.length < 4) {
-                continue;
+            if (parts.length != 4) {
+                throw invalidRow(BOOK_FILE, line);
             }
             try {
                 books.add(new Book(parts[0].trim(), parts[1].trim(), parts[2].trim(),
                         Integer.parseInt(parts[3].trim())));
-            } catch (NumberFormatException ignored) {
+            } catch (NumberFormatException e) {
+                throw invalidRow(BOOK_FILE, line);
             }
         }
         return books;
@@ -50,8 +56,8 @@ public class FileManager {
         List<Member> members = new ArrayList<>();
         for (String line : read(MEMBER_FILE)) {
             String[] parts = line.split(";", -1);
-            if (parts.length < 3) {
-                continue;
+            if (parts.length != 3) {
+                throw invalidRow(MEMBER_FILE, line);
             }
             members.add(new Member(parts[0].trim(), parts[1].trim(), parts[2].trim()));
         }
@@ -70,17 +76,18 @@ public class FileManager {
         List<IssueRecord> records = new ArrayList<>();
         for (String line : read(DUE_FILE)) {
             String[] parts = line.split(";", -1);
-            if (parts.length < 3) {
-                continue;
+            if (parts.length != 3) {
+                throw invalidRow(DUE_FILE, line);
             }
             Book book = findBook(books, parts[1].trim());
             Member member = findMember(members, parts[0].trim());
             if (book == null || member == null) {
-                continue;
+                throw invalidRow(DUE_FILE, line);
             }
             try {
                 records.add(new IssueRecord(member, book, LocalDate.parse(parts[2].trim())));
-            } catch (DateTimeParseException ignored) {
+            } catch (DateTimeParseException e) {
+                throw invalidRow(DUE_FILE, line);
             }
         }
         return records;
@@ -111,6 +118,10 @@ public class FileManager {
             }
         }
         return null;
+    }
+
+    private static IllegalArgumentException invalidRow(Path path, String line) {
+        return new IllegalArgumentException("Baris data tidak valid di " + path + ": " + line);
     }
 
     private static List<String> read(Path path) {

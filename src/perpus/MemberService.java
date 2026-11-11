@@ -2,6 +2,7 @@ package perpus;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MemberService implements Searchable<Member> {
@@ -15,15 +16,15 @@ public class MemberService implements Searchable<Member> {
     }
 
     public void setRecords(List<IssueRecord> records) {
-        this.records = records;
+        this.records = new ArrayList<>(records);
     }
 
     public List<Member> getAllMembers() {
-        return members;
+        return Collections.unmodifiableList(members);
     }
 
     public List<IssueRecord> getActiveRecords() {
-        return records;
+        return List.copyOf(records);
     }
 
     public List<IssueRecord> getOverdue() {
@@ -108,6 +109,7 @@ public class MemberService implements Searchable<Member> {
                 return "Anggota ini masih meminjam buku tersebut.";
             }
         }
+        // shortcut: stock and loans use separate files; a disk failure between saves can split them.
         book.setQuantity(book.getQuantity() - 1);
         records.add(new IssueRecord(member, book, LocalDate.now().plusDays(7)));
         bookService.save();

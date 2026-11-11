@@ -4,6 +4,7 @@ import perpus.BookService;
 import perpus.FileManager;
 import perpus.Member;
 import perpus.MemberService;
+import perpus.IssueRecord;
 import perpus.Searchable;
 import perpus.User;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Cek logika tanpa GUI. Jalankan dari folder kosong supaya file data
@@ -31,6 +34,9 @@ public class SmokeTest {
         members.addMember(new Member("M002", "Uji Dua", "123"));
 
         AuthenticationManager auth = new AuthenticationManager(members.getAllMembers());
+        check("anggota baru langsung bisa login",
+                members.addMember(new Member("M003", "Baru", "123"))
+                        && auth.login("M003", "123") != null);
         check("login admin", auth.login("admin", "admin123") != null);
         check("login member", auth.login("M001", "123") != null);
         check("password salah ditolak", auth.login("M001", "salah") == null);
@@ -47,6 +53,11 @@ public class SmokeTest {
         check("pinjam dobel ditolak", members.issue("M001", "B001") != null);
         check("satu pinjaman aktif", members.getActiveRecords().size() == 1);
         check("belum overdue", members.getOverdue().isEmpty());
+        List<IssueRecord> activeRecords = members.getActiveRecords();
+        members.setRecords(List.of(new IssueRecord(activeRecords.get(0).getMember(),
+                activeRecords.get(0).getBook(), LocalDate.now().minusDays(1))));
+        check("pinjaman lewat jatuh tempo terdeteksi", members.getOverdue().size() == 1);
+        members.setRecords(activeRecords);
 
         check("kembali berhasil", members.returnBook("M001", "B001") == null);
         check("stok pulih", books.searchById("B001").getQuantity() == 2);
@@ -65,10 +76,30 @@ public class SmokeTest {
         try {
             Files.writeString(Path.of("data", "bookRecords.txt"),
                     "\uFEFFB009;Buku BOM;Penulis;1\n", StandardCharsets.UTF_8);
-            check("BOM di awal file diabaikan",
+        check("BOM di awal file diabaikan",
                     "B009".equals(FileManager.loadBooks().get(0).getBookId()));
         } catch (IOException e) {
             check("BOM di awal file diabaikan", false);
+        }
+
+        check("pemisah file ditolak dalam input", !FileManager.isValidField("judul;rusak"));
+        check("teks biasa valid", FileManager.isValidField("judul biasa"));
+        try {
+            books.getAllBooks().clear();
+            check("daftar buku tidak bisa diubah dari luar", false);
+        } catch (UnsupportedOperationException e) {
+            check("daftar buku tidak bisa diubah dari luar", true);
+        }
+
+        try {
+            Files.writeString(Path.of("data", "bookRecords.txt"), "baris rusak\n",
+                    StandardCharsets.UTF_8);
+            FileManager.loadBooks();
+            check("baris buku rusak dilaporkan", false);
+        } catch (IllegalArgumentException e) {
+            check("baris buku rusak dilaporkan", e.getMessage().contains("bookRecords.txt"));
+        } catch (IOException e) {
+            check("baris buku rusak dilaporkan", false);
         }
 
         System.out.println(failed == 0 ? "SEMUA CEK LULUS" : failed + " CEK GAGAL");

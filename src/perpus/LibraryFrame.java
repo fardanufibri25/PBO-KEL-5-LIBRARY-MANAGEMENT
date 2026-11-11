@@ -272,6 +272,11 @@ public class LibraryFrame extends JFrame {
             warn("ID dan judul wajib diisi.");
             return null;
         }
+        if (!FileManager.isValidField(id) || !FileManager.isValidField(title)
+                || !FileManager.isValidField(author)) {
+            warn("Data tidak boleh mengandung pemisah atau baris baru.");
+            return null;
+        }
         int quantity;
         try {
             quantity = Integer.parseInt(quantityField.getText().trim());
@@ -338,6 +343,11 @@ public class LibraryFrame extends JFrame {
                 warn("ID, nama, dan password wajib diisi.");
                 return;
             }
+            if (!FileManager.isValidField(id) || !FileManager.isValidField(name)
+                    || !FileManager.isValidField(password)) {
+                warn("Data tidak boleh mengandung pemisah atau baris baru.");
+                return;
+            }
             if (!memberService.addMember(new Member(id, name, password))) {
                 warn("ID anggota sudah dipakai.");
                 return;
@@ -366,6 +376,11 @@ public class LibraryFrame extends JFrame {
             String password = passwordField.getText().trim();
             if (id.isEmpty() || name.isEmpty() || password.isEmpty()) {
                 warn("ID, nama, dan password wajib diisi.");
+                return;
+            }
+            if (!FileManager.isValidField(id) || !FileManager.isValidField(name)
+                    || !FileManager.isValidField(password)) {
+                warn("Data tidak boleh mengandung pemisah atau baris baru.");
                 return;
             }
             if (!memberService.updateMember(new Member(id, name, password))) {
@@ -499,10 +514,8 @@ public class LibraryFrame extends JFrame {
             if (self != null) {
                 memberCombo.setSelectedItem(self);
                 memberCombo.setEnabled(false);
-                return;
             }
-        }
-        if (selectedMember != null) {
+        } else if (selectedMember != null) {
             memberCombo.setSelectedItem(selectedMember);
         }
         if (selectedBook != null) {

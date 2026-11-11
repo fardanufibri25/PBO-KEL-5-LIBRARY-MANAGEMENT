@@ -81,8 +81,9 @@ Diagram lengkap: [`docs/diagram-class.md`](docs/diagram-class.md)
   `User`.
 - **Polymorphism** — `getRole()` dioverride dengan hasil berbeda. GUI menyimpan
   user di variabel bertipe `User` (`LibraryFrame.currentUser`) lalu memanggil
-  `getRole()` tanpa tahu objek aslinya. Interface `Searchable<T>` juga dipakai
-  lewat tipe interface pada `BookService` dan `MemberService`.
+  `getRole()` tanpa tahu objek aslinya. `BookService` dan `MemberService`
+  mengimplementasikan `Searchable<T>`; `SmokeTest` menunjukkan pemanggilan
+  melalui tipe interface.
 - **Encapsulation** — semua field `private`, akses hanya lewat getter/setter.
 - **Composition** — `BookService` memegang `Book`, `MemberService` memegang
   `IssueRecord` (bagian tidak hidup tanpa pemiliknya).
@@ -120,5 +121,5 @@ java -cp out SmokeTest
 ```
 
 Jalankan dari folder kosong agar file data asli tidak tertimpa.
-SmokeTest memeriksa 24 hal: login, hak akses, pinjam, stok, pinjam ganda,
+SmokeTest memeriksa 30 hal: login, hak akses, pinjam, stok, pinjam ganda,
 pengembalian, stok habis, update anggota, dan aturan hapus data.

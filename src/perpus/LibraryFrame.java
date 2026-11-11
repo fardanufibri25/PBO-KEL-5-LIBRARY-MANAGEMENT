@@ -25,6 +25,8 @@ public class LibraryFrame extends JFrame {
     private JPanel mainPanel;
     private JComboBox<Member> memberCombo;
     private JComboBox<Book> bookCombo;
+    private JTextField loginIdField;
+    private JPasswordField loginPasswordField;
     private User currentUser;
 
     public LibraryFrame() {
@@ -83,6 +85,8 @@ public class LibraryFrame extends JFrame {
         title.setFont(title.getFont().deriveFont(Font.BOLD, 20f));
         JTextField idField = new JTextField(18);
         JPasswordField passwordField = new JPasswordField(18);
+        loginIdField = idField;
+        loginPasswordField = passwordField;
         JButton loginButton = new JButton("Login");
         JLabel hint = new JLabel("admin / admin123   |   M001 / 123");
 
@@ -145,6 +149,8 @@ public class LibraryFrame extends JFrame {
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
             currentUser = null;
+            loginIdField.setText("");
+            loginPasswordField.setText("");
             cards.show(root, "login");
         });
         top.add(who, BorderLayout.WEST);

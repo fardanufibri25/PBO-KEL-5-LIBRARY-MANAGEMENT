@@ -118,7 +118,14 @@ public class FileManager {
             if (!Files.exists(path)) {
                 return new ArrayList<>();
             }
-            return Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> lines = new ArrayList<>(
+                    Files.readAllLines(path, StandardCharsets.UTF_8));
+            // Notepad lama menulis BOM di awal file; buang supaya id baris
+            // pertama tetap cocok.
+            if (!lines.isEmpty() && lines.get(0).startsWith("\uFEFF")) {
+                lines.set(0, lines.get(0).substring(1));
+            }
+            return lines;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

@@ -7,6 +7,11 @@ import perpus.MemberService;
 import perpus.Searchable;
 import perpus.User;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * Cek logika tanpa GUI. Jalankan dari folder kosong supaya file data
  * tidak menimpa data asli:
@@ -55,6 +60,16 @@ public class SmokeTest {
         check("hapus buku berpinjaman ditolak", !members.deleteBook("B001"));
         check("kembalikan buku anggota", members.returnBook("M002", "B001") == null);
         check("hapus buku setelah dikembalikan", members.deleteBook("B001"));
+
+        // BOM dari editor lama tidak boleh merusak baris pertama.
+        try {
+            Files.writeString(Path.of("data", "bookRecords.txt"),
+                    "\uFEFFB009;Buku BOM;Penulis;1\n", StandardCharsets.UTF_8);
+            check("BOM di awal file diabaikan",
+                    "B009".equals(FileManager.loadBooks().get(0).getBookId()));
+        } catch (IOException e) {
+            check("BOM di awal file diabaikan", false);
+        }
 
         System.out.println(failed == 0 ? "SEMUA CEK LULUS" : failed + " CEK GAGAL");
         if (failed > 0) {

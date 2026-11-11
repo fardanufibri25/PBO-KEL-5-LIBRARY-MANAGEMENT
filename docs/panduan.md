@@ -29,6 +29,8 @@ Kalau `javac` tidak dikenali:
 Jendela **Perpustakaan - Login** akan muncul. Folder `data/` dibuat otomatis
 saat pertama dijalankan.
 
+![Layar login](img/login.png)
+
 ## 3. Akun untuk demo
 
 | ID | Password | Bisa apa saja |
@@ -55,9 +57,15 @@ Menu tengah berupa tab, dan isinya berbeda menurut peran:
 | Pinjam / Kembali | ada, pilih anggota mana pun | ada, anggota terkunci ke dirinya sendiri |
 | Overdue | ada | tidak ada |
 
+Tampilan akun anggota — hanya dua tab, dan tab Buku tanpa form:
+
+![Tampilan anggota](img/member-buku.png)
+
 ## 5. Tab Buku (admin)
 
 Kolom: **ID, Judul, Penulis, Stok**. Stok = jumlah yang **tersedia**, bukan total.
+
+![Tab Buku admin](img/admin-buku.png)
 
 **Tambah buku**
 
@@ -88,6 +96,8 @@ ditemukan."). Kembalikan dulu bukunya.
 Kolom: **ID, Nama**. Password tidak ditampilkan di tabel, tapi muncul di form
 saat baris dipilih.
 
+![Tab Anggota](img/admin-anggota.png)
+
 **Tambah anggota**
 
 1. Isi ID (misal `M003`), Nama, Password.
@@ -101,6 +111,8 @@ pinjaman aktif ditolak dengan pesan "Anggota masih punya pinjaman aktif."
 
 ## 7. Tab Pinjam / Kembali
 
+![Tab Pinjam / Kembali](img/admin-pinjam.png)
+
 **Meminjam**
 
 1. Pilih anggota di combo **Anggota** (untuk akun anggota, combo ini terkunci
@@ -108,6 +120,8 @@ pinjaman aktif ditolak dengan pesan "Anggota masih punya pinjaman aktif."
 2. Pilih buku di combo **Buku**.
 3. Klik **Pinjam**.
 4. Muncul "Buku berhasil dipinjam. Jatuh tempo 7 hari." Stok buku berkurang 1.
+
+![Dialog berhasil pinjam](img/dialog-pinjam.png)
 
 Yang ditolak:
 
@@ -127,6 +141,8 @@ Untuk akun anggota: hanya bisa mengembalikan baris miliknya sendiri.
 
 Menampilkan pinjaman yang sudah lewat tanggal jatuh tempo: Anggota, Buku,
 Jatuh Tempo, **Terlambat (hari)**.
+
+![Tab Overdue](img/admin-overdue.png)
 
 Tab ini tidak memperbarui diri sendiri. Klik **Muat Ulang** setelah mengubah
 data atau membiarkan aplikasi terbuka lama.

@@ -93,22 +93,23 @@ Diagram lengkap: [`docs/diagram-class.md`](docs/diagram-class.md)
 
 ## Penerapan PBO
 
-- **Abstraction** — `User` tidak bisa dibuat langsung; method `getRole()`
-  wajib diisi oleh setiap turunannya.
-- **Inheritance** — `Admin` dan `Member` mewarisi seluruh field dan method
-  `User`.
-- **Polymorphism** — `getRole()` dioverride dengan hasil berbeda. GUI menyimpan
-  user di variabel bertipe `User` (`LibraryFrame.currentUser`) lalu memanggil
-  `getRole()` tanpa tahu objek aslinya. `BookService` dan `MemberService`
-  mengimplementasikan `Searchable<T>`; `SmokeTest` menunjukkan pemanggilan
-  melalui tipe interface.
-- **Encapsulation** — semua field `private`, akses hanya lewat getter/setter.
-- **Composition** — `BookService` memegang `Book`, `MemberService` memegang
-  `IssueRecord` (bagian tidak hidup tanpa pemiliknya).
-- **Aggregation** — `MemberService` menyimpan daftar `Member` yang bisa
-  berdiri sendiri.
-- **Dependency** — service memakai `FileManager`; GUI memakai service, tidak
-  pernah menyentuh file langsung.
+| Konsep | Penerapan di program | Penjelasan untuk presentasi |
+|---|---|---|
+| **Abstraction** | `User` adalah abstract class dengan method abstrak `getRole()`. | `User` berisi hal umum tentang pengguna. Program tidak membuat `User` langsung; turunannya harus menentukan role. |
+| **Inheritance** | `Admin` dan `Member` mewarisi `User`. | Kedua jenis pengguna memakai data dasar yang sama seperti ID, nama, dan password, tanpa menulis ulang field tersebut. |
+| **Polymorphism** | `LibraryFrame.currentUser` bertipe `User`; `Admin` dan `Member` memberi hasil `getRole()` berbeda. | GUI memanggil method yang sama, tetapi hasilnya mengikuti jenis objek yang sedang login. |
+| **Encapsulation** | Field pada class model dibuat `private`; perubahan data dilakukan lewat method seperti getter/setter dan service. | Data tidak diakses langsung dari luar class. Service juga menjaga aturan saat data buku atau pinjaman diubah. |
+| **Composition** | `BookService` mengelola daftar `Book`; `MemberService` menyimpan daftar `IssueRecord`. | Service mengelola data yang dipakai sebagai bagian dari pekerjaannya. Hubungan ini digambarkan pada diagram class. |
+| **Aggregation** | `MemberService` menyimpan daftar `Member`. | Anggota tetap dapat ada sebagai data tersendiri, terlepas dari daftar yang dikelola service. |
+| **Interface** | `BookService` dan `MemberService` mengimplementasikan `Searchable<T>`. | Keduanya menyediakan `searchById()`. `SmokeTest` memanggil `BookService` melalui tipe `Searchable<Book>`. |
+| **Dependency** | `BookService` dan `MemberService` memakai `FileManager`; GUI memakai service. | Tiap bagian meminta pekerjaan dari bagian lain, misalnya service meminta `FileManager` menyimpan data. |
+
+### Contoh alur peminjaman
+
+1. Admin atau anggota memilih anggota dan buku di `LibraryFrame`.
+2. `MemberService.issue()` mengecek data anggota, buku, stok, dan pinjaman ganda.
+3. Jika valid, stok dikurangi dan `IssueRecord` dibuat dengan jatuh tempo 7 hari.
+4. Service meminta `BookService` dan `FileManager` menyimpan perubahan ke file teks.
 
 ## Format Data
 

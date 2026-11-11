@@ -57,6 +57,11 @@ test/           SmokeTest.java, pengecekan logika tanpa GUI
 out/            hasil compile (boleh dihapus)
 ```
 
+## Diagram Class
+
+Diagram lengkap: [`docs/diagram-class.md`](docs/diagram-class.md)
+(GitHub merender diagramnya otomatis).
+
 ## Struktur Class
 
 | Class | Jenis | Tugas |

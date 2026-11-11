@@ -137,6 +137,8 @@ Yang ditolak:
 
 Untuk akun anggota: hanya bisa mengembalikan baris miliknya sendiri.
 
+![Tab Pinjam untuk anggota](img/member-pinjam.png)
+
 ## 8. Tab Overdue (admin)
 
 Menampilkan pinjaman yang sudah lewat tanggal jatuh tempo: Anggota, Buku,

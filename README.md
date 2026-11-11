@@ -4,16 +4,6 @@ Tugas besar mata kuliah Pemrograman Berorientasi Objek.
 Aplikasi desktop Java Swing untuk mengelola buku, anggota, peminjaman, dan
 keterlambatan. Tanpa database — data disimpan di file teks.
 
-## Anggota Kelompok
-
-| No | Nama | NIM | Bagian |
-|----|------|-----|--------|
-| 1 | _(isi nama)_ | _(isi NIM)_ | Model & Service |
-| 2 | _(isi nama)_ | _(isi NIM)_ | GUI |
-| 3 | _(isi nama)_ | _(isi NIM)_ | Diagram & laporan |
-
-Dosen pengampu: _(isi nama dosen)_
-
 ## Fitur
 
 - Login admin dan anggota, menu menyesuaikan hak akses
